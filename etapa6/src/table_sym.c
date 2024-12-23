@@ -162,6 +162,17 @@ row_symbol * get_row_from_scope(const table_symbol * table, const char * identif
   return NULL;
 }
 
+row_symbol * get_or_create_row_from_scope(table_symbol * table, char * identifier){
+  row_symbol * row = get_row_from_scope(table, identifier);
+  if (row == NULL){
+    table_add_row(table, new_row(0, NULL_TYPE, VARIABLE, identifier)); 
+    return get_row_from_scope(table, identifier); 
+  } else {
+    return row; 
+  }
+
+}
+
 const char* get_str_symbol_kind(symbol_kind kind) {
   if (kind == VARIABLE) {
     return "VARIABLE";

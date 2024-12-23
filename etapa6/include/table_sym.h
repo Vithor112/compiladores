@@ -93,6 +93,11 @@ int is_identifier_declared(const table_symbol * table, const char * identifier);
 int does_identifier_exist(const table_symbol * current_table, const char * identifier);
 
 /*
+ * Retorna a row  associada ao identificador passado no escopo atual, cria caso não exista com valores default
+ */
+row_symbol * get_or_create_row_from_scope(table_symbol * table, char * identifier);
+
+/*
  * Retorna a row  associada ao identificador passado no escopo atual, retorna NULL caso não exista
  */
 row_symbol * get_row_from_scope(const table_symbol * table, const char * identifier);
