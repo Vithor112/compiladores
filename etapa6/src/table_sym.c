@@ -162,10 +162,22 @@ row_symbol * get_row_from_scope(const table_symbol * table, const char * identif
   return NULL;
 }
 
+
+
+row_symbol * get_row_from_scope_or_throw(const table_symbol * table, const char * identifier){
+  row_symbol * row = get_row_from_scope(table, identifier);
+  if (row == NULL){
+    fprintf(stderr, "Error in get_row_from_scope_or_throw, couldn't find row %s\n", identifier); 
+    exit(1); 
+  } 
+  return row; 
+}
+
+
 row_symbol * get_or_create_row_from_scope(table_symbol * table, char * identifier){
   row_symbol * row = get_row_from_scope(table, identifier);
   if (row == NULL){
-    table_add_row(table, new_row(0, NULL_TYPE, VARIABLE, identifier)); 
+    table_add_row(table, new_row(-1, NULL_TYPE, REGISTER, identifier)); 
     return get_row_from_scope(table, identifier); 
   } else {
     return row; 

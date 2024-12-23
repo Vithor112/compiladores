@@ -19,7 +19,10 @@ int main (int argc, char **argv) {
   current_table = table_new();
   int ret = yyparse();
   yylex_destroy();
-  if (arvore != NULL) print_asm_list(generate_asm(((asd_tree_t * ) arvore)->code, current_table));
+  if (arvore != NULL) {
+    //print_iloc_op_list(((asd_tree_t * ) arvore)->code);
+    print_asm_list(generate_asm(((asd_tree_t * ) arvore)->code, current_table));
+  }
   asd_free(arvore);
   table_free(current_table);
   return ret;
