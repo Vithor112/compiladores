@@ -1,3 +1,4 @@
+/* Vithor Barros Pileco - 326674 */
 #include "asm.h"
 #include <stdbool.h>
 
@@ -171,6 +172,7 @@ void  convert_iloc_to_asm(iloc_op * op, asm_op_list * list, table_symbol * table
         add_iloc_operation(list, new_iloc_operation("cmpl", "$0", str, NULL)); 
         add_iloc_operation(list, new_iloc_operation("je", op->arg3, NULL, NULL)); 
         add_iloc_operation(list, new_iloc_operation("jmp", op->arg2, NULL, NULL)); 
+        free(str); 
     }
 }
 
