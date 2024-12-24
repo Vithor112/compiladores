@@ -70,11 +70,10 @@ void  convert_iloc_to_asm(iloc_op * op, asm_op_list * list, table_symbol * table
         char * str_2 = get_mem_str(row->shift);
         row_symbol * row_3 = get_or_create_row_from_scope(table, op->arg3); 
         char * str_3 = get_mem_str(row_3->shift);
-        add_iloc_operation(list, new_iloc_operation("movl", str_2, "%eax", NULL)); 
-        add_iloc_operation(list, new_iloc_operation("movslq",  "%eax", "%rbx", NULL)); 
+        add_iloc_operation(list, new_iloc_operation("movslq",  str_2, "%rbx", NULL)); 
         add_iloc_operation(list, new_iloc_operation("movq", "%rbp", "%rdx", NULL)); 
         add_iloc_operation(list, new_iloc_operation("subq",  "%rbx", "%rdx", NULL)); 
-        add_iloc_operation(list, new_iloc_operation("movl", "-0(%rdx)", "%ebx", NULL)); 
+        add_iloc_operation(list, new_iloc_operation("movl", "(%rdx)", "%ebx", NULL)); 
         add_iloc_operation(list, new_iloc_operation("movl", "%ebx", str_3, NULL)); 
         free(str_2);
         free(str_3); 
@@ -83,12 +82,11 @@ void  convert_iloc_to_asm(iloc_op * op, asm_op_list * list, table_symbol * table
         char * str_1 = get_mem_str(row->shift);
         row_symbol * row_2 = get_or_create_row_from_scope(table, op->arg2); 
         char * str_2 = get_mem_str(row_2->shift);
-            add_iloc_operation(list, new_iloc_operation("movl", str_2, "%eax", NULL)); 
-        add_iloc_operation(list, new_iloc_operation("movslq",  "%eax", "%rbx", NULL)); 
+        add_iloc_operation(list, new_iloc_operation("movslq",  str_2, "%rbx", NULL)); 
         add_iloc_operation(list, new_iloc_operation("movq", "%rbp", "%rdx", NULL)); 
         add_iloc_operation(list, new_iloc_operation("subq",  "%rbx", "%rdx", NULL)); 
         add_iloc_operation(list, new_iloc_operation("movl", str_1, "%eax", NULL)); 
-        add_iloc_operation(list, new_iloc_operation("movl", "%eax", "-0(%rdx)", NULL)); 
+        add_iloc_operation(list, new_iloc_operation("movl", "%eax", "(%rdx)", NULL)); 
         free(str_2);
         free(str_1); 
     } else if (!strcmp(op->mnemonico, "return")){
@@ -167,8 +165,13 @@ void  convert_iloc_to_asm(iloc_op * op, asm_op_list * list, table_symbol * table
         add_iloc_operation(list, new_iloc_operation("jmp", op->arg1,  NULL, NULL));
     } else if (!strcmp(op->mnemonico, "label")){
         add_iloc_operation(list, new_iloc_operation("label", op->arg1,  NULL, NULL));
+    } else if (!strcmp(op->mnemonico, "cbr")){
+        row_symbol * row = get_row_from_scope_or_throw(table, op->arg1); 
+        char *str = get_mem_str(row->shift);
+        add_iloc_operation(list, new_iloc_operation("cmpl", "$0", str, NULL)); 
+        add_iloc_operation(list, new_iloc_operation("je", op->arg3, NULL, NULL)); 
+        add_iloc_operation(list, new_iloc_operation("jmp", op->arg2, NULL, NULL)); 
     }
-    // TODO cbr
 }
 
 asm_op_list * generate_asm(iloc_op_list * list, table_symbol * table){
