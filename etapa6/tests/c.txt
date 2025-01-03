@@ -1,0 +1,12 @@
+main => int {
+	int a,b;
+	a = 10;
+	b = 15;
+	int c;
+	if (a > b){
+		c = a * 2 + 1;	
+	} else {
+		c = b * 2 + 1;	
+	};
+	return c;
+}

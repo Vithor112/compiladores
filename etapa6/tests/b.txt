@@ -1,0 +1,5 @@
+main => int {
+	int a,b; 
+	b = a;
+	a = 5;
+}

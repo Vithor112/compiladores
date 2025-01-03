@@ -1,0 +1,9 @@
+main => int {
+	int a,b;
+	a = 200;
+	b = 0;
+	int c;
+	while (a > b){
+		b = b + 1;	
+	};
+}

@@ -1,0 +1,8 @@
+main => int {
+	int a, b, c;
+	c = 10;
+	a = 15;
+	b = 20;
+	c = 30;
+	return c/a + b;
+}

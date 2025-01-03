@@ -1,0 +1,10 @@
+main => int {
+	int a,b;
+	a = 27;
+	b = 0;
+	int c;
+	while (a > b){
+		b = b + 1;	
+	};
+	return b; 
+}
